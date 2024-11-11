@@ -1,0 +1,141 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Estilos de la cabecera */
+.header {
+    width: 100%;
+    background-color: #f8f9fa;
+    padding: 08px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    text-decoration: none;
+}
+
+/* Alinear los elementos de navegación a la derecha */
+.header nav ul {
+    list-style: none;
+    display: flex;
+    gap: 25px;
+    align-items: center;
+    margin-left: auto;
+}
+
+/* Estilos específicos para cada enlace de navegación */
+.pagina-inicial {
+    color: #3498db; /* Azul claro */
+    font-weight: bold;
+    text-decoration: none;
+    border-bottom: 2px solid #3498db; /* Línea debajo */
+    padding-bottom: 2px;
+}
+
+.menu {
+    color: #000; /* Negro */
+    font-weight: bold;
+    text-decoration: none;
+}
+
+/* Eliminar subrayado en todos los enlaces */
+.header nav ul li a {
+    text-decoration: none;
+    font-weight: bold;
+    white-space: nowrap;
+}
+
+/* Hover effect solo para subrayado */
+.pagina-inicial:hover,
+.menu:hover {
+    text-decoration: underline;
+}
+
+/* Icono de usuario */
+.user-icon {
+    width: 60px;
+    height: 50px;
+    vertical-align: middle;
+}
+
+/* Imagen de banner de estudiantes */
+.banner-image {
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner-image img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+/* Sección principal centrada */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    text-align: center;
+    background-color: #fff;
+}
+
+.welcome-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.welcome-content h1 {
+    font-size: 20px;
+    font-weight: bold;
+    color: #2C3E50;
+    margin-bottom: 10px;
+}
+
+.welcome-content button {
+    background-color: #131954;
+    color: #fff;
+    border: none;
+    padding: 15px 10px;
+    margin: 10px 0;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    width: 175px;
+    text-align: center;
+    white-space: nowrap;
+}
+
+.welcome-content button:hover {
+    background-color: #3949AB;
+}
+
+.forgot-password {
+    display: block;
+    margin-top: 15px;
+    color: #1A237E;
+    font-size: 18px;
+    text-decoration: none;
+    text-align: center;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+
+
