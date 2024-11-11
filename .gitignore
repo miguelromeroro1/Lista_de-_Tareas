@@ -1,26 +1,2 @@
 # Ignorar node_modules
 node_modules/
-
-# Ignorar archivos de entorno
-.env
-
-# Ignorar archivos de log
-*.log
-
-# Ignorar carpetas de caché y archivos temporales
-.cache/
-.tmp/
-
-# Ignorar archivos de compilación (en caso de proyectos front-end)
-dist/
-build/
-
-# Ignorar carpetas de configuración de IDEs
-.vscode/
-.idea/
-
-# Ignorar archivos de sistema (por ejemplo, en macOS)
-.DS_Store
-
-# Ignorar archivos de salida de Git
-*.lock
