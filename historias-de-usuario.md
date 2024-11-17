@@ -1,6 +1,5 @@
 ## Historia de Usuario 6: Notificaciones por Tareas
 
-<<<<<<< HEAD
 ## **Historia de Usuario 1: Crear Tareas**
 **Como** usuario del sistema,  
 **Quiero** poder agregar una nueva tarea con un título y una descripción,  
@@ -84,12 +83,3 @@
    > _Respuesta: _  
 2. ¿Deberíamos mover las tareas eliminadas a una papelera temporal antes de eliminarlas permanentemente?  
    > _Respuesta: _  
-=======
-**Como** usuario del sistema,  
-**Quiero** recibir notificaciones cuando se acerque el vencimiento de una tarea,  
-**Para** mantenerme organizado y cumplir con mis actividades a tiempo.
-
-**Criterios de aceptación:**  
-- El sistema debe enviar una notificación 24 horas antes del vencimiento de una tarea.
-- El usuario debe poder desactivar las notificaciones si lo desea.
->>>>>>> cd5c4f7bdb40e5553971cbcd886c4e36e5938c34
