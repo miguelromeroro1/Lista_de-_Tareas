@@ -12,9 +12,9 @@
 
 **Preguntas:**
 1. ¿Deberíamos incluir una fecha de vencimiento para las tareas?  
-   > _Respuesta: _  
+  
 2. ¿Los usuarios pueden editar tareas una vez creadas?  
-   > _Respuesta: _  
+   
 
 ---
 
@@ -29,9 +29,9 @@
 
 **Preguntas:**
 1. ¿Es necesario incluir un buscador de tareas?  
-   > _Respuesta: _  
+
 2. ¿Los usuarios pueden personalizar el orden de las tareas (por fecha, prioridad, etc.)?  
-   > _Respuesta: _  
+ 
 
 ---
 
@@ -46,9 +46,9 @@
 
 **Preguntas:**
 1. ¿Es necesario notificar a los usuarios sobre los cambios realizados?  
-   > _Respuesta: _  
+  
 2. ¿Se debe guardar un historial de cambios realizados en cada tarea?  
-   > _Respuesta: _  
+   
 
 ---
 
@@ -63,9 +63,9 @@
 
 **Preguntas:**
 1. ¿Se deben ocultar automáticamente las tareas completadas de la vista principal?  
-   > _Respuesta: _  
+ 
 2. ¿Es necesario agregar una opción para reactivar tareas completadas?  
-   > _Respuesta: _  
+   
 
 ---
 
@@ -80,6 +80,6 @@
 
 **Preguntas:**
 1. ¿Se necesita una confirmación antes de eliminar una tarea?  
-   > _Respuesta: _  
+   
 2. ¿Deberíamos mover las tareas eliminadas a una papelera temporal antes de eliminarlas permanentemente?  
-   > _Respuesta: _  
+  
