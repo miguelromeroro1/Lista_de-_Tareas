@@ -24,17 +24,35 @@
         <img src="Imagenes/PRINCIPAL.png" alt="Estudiantes">
     </section>
     
-
     <!-- Sección principal de bienvenida -->
     <main class="main-content">
         <div class="welcome-content">
             <h1>BIENVENIDO</h1>
-            <button onclick="location.href='#'">INICIAR SECCIÓN</button>
-            <button onclick="location.href='register.html'">REGISTRO</button>
-            <a href="#"><img src="Imagenes/icono2.png" alt="Icono Usuario" class="user-icone"></a> <!-- Eliminé el <li> -->
+            <!-- Botón para iniciar sesión -->
+            <button onclick="location.href='login.html'">INICIAR SESIÓN</button>
+
+
+            <!-- Botón para registro -->
+            <button id="register-button">REGISTRO</button>
+
+            <!-- Link de olvido de contraseña -->
             <a href="#" class="forgot-password">¿Olvidaste tu Contraseña?</a>
         </div>
     </main>
+
+    <!-- Script para manejar acciones -->
+    <script>
+        // Redirigir al formulario de registro
+        document.getElementById('register-button').addEventListener('click', () => {
+            location.href = 'register.html'; // Cambia de página al registro
+        });
+
+        // Manejar inicio de sesión (puedes implementar aquí la funcionalidad en el futuro)
+        document.getElementById('login-button').addEventListener('click', () => {
+            alert('Funcionalidad de inicio de sesión próximamente');
+        });
+    </script>
 </body>
 </html>
+
 

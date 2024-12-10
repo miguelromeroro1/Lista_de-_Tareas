@@ -2,8 +2,8 @@ require('dotenv').config(); // Carga las variables de entorno desde .env
 const express = require('express');
 const connectDB = require('./database'); // Importa la conexión a MongoDB
 const cors = require('cors');
-app.use(cors());
 const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken'); // Instala esta librería con `npm install jsonwebtoken`
 const User = require('./models/User'); // Modelo de usuario
 
 const app = express();
@@ -48,6 +48,33 @@ app.post('/api/register', async (req, res) => {
     }
 });
 
+// Ruta de inicio de sesión
+app.post('/api/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: 'Usuario no encontrado' });
+        }
+
+        const isMatch = await bcrypt.compare(password, user.password);
+        if (!isMatch) {
+            return res.status(400).json({ message: 'Contraseña incorrecta' });
+        }
+
+        // Generar token
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
+
+        res.status(200).json({ message: 'Inicio de sesión exitoso', token });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Error interno del servidor', error: error.message });
+    }
+});
+
 // Iniciar el servidor
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor iniciado en http://localhost:${PORT}`));
+app.listen(PORT, '0.0.0.0', () => console.log(`Servidor iniciado en http://localhost:${PORT}`));
+
+

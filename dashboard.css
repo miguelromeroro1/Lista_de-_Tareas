@@ -1,0 +1,118 @@
+/* Restablecimiento de márgenes y fuentes */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+}
+
+/* Estilo para el encabezado */
+header {
+    background-color: #eff2f5;
+    color: rgb(22, 21, 21);
+    padding: 20px;
+    text-align: left;
+}
+
+header h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+header p {
+    font-size: 18px;
+    margin: 0;
+}
+
+/* Contenedor principal */
+main {
+    max-width: 1200px;
+    margin: 40px auto;
+    text-align: center;
+}
+
+/* Botones principales */
+.button-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.button-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 20px;
+}
+
+/* Botón común */
+.button {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    border-radius: 8px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #616161;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.button img {
+    max-width: 40px;
+    margin-right: 15px;
+}
+
+.button:hover {
+    transform: translateY(-3px);
+    transition: transform 0.3s ease;
+}
+
+/* Colores personalizados */
+.agregar {
+    background-color: #b2e0da;
+}
+
+.pendientes {
+    background-color: #efc48c;
+}
+
+.completadas {
+    background-color: #b2e0da;
+}
+
+.guardadas {
+    background-color: #efc48c;
+}
+
+.eliminadas {
+    background-color: #d2a0da;
+}
+
+.notificaciones {
+    background-color: #d2a0da;
+}
+
+.papelera {
+    background-color: #f2e780;
+}
+
+/* Espaciado entre filas */
+.button-row + .button-row {
+    margin-top: 40px;
+}
+
+/* Redes sociales */
+.social-media {
+    margin-top: 50px;
+    text-align: center;
+}
+
+.social-media img {
+    max-width: 300px;
+}
+
+
+
+
