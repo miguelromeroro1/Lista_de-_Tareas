@@ -8,7 +8,7 @@ body {
 
 /* Estilo para el encabezado */
 header {
-    background-color: #eff2f5;
+    background-color: #f5f6f7;
     color: rgb(22, 21, 21);
     padding: 20px;
     text-align: left;
@@ -60,7 +60,7 @@ main {
 }
 
 .button img {
-    max-width: 40px;
+    max-width: 85px;
     margin-right: 15px;
 }
 
