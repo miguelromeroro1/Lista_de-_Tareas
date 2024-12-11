@@ -1,4 +1,4 @@
-# Participación del Equipo en el Proyecto Torneo Deportivo
+# Participación del Equipo en el Proyecto LISTA DE TAREAS
 
 # Miembros del Equipo
 1. **Carlos Fernando Jiménez Malagón** - Usuario GitHub: `Usuario1`
