@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Tarea</title>
+  <!-- Flatpickr CSS -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  <link rel="stylesheet" href="../dashboard.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 800px;
+      margin-top: 20px;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header img {
+      width: 80%;
+      max-width: 400px;
+      height: auto;
+    }
+
+    .header h1 {
+      margin: 10px 0;
+      font-size: 24px;
+      text-align: left;
+    }
+
+    .input-task {
+      width: 100%;
+      padding: 10px;
+      margin: 15px 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .calendar-section {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      margin: 20px 0;
+    }
+
+    #calendar {
+      margin-bottom: 20px;
+      width: 100%;
+    }
+
+    .calendar-label {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .hours-wrapper {
+      display: flex;
+      justify-content: flex-end;
+    }
+
+    .hours {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .hour {
+      padding: 10px 20px;
+      background-color: #e7f3fe;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      text-align: center;
+    }
+
+    .hour:hover {
+      background-color: #d0e7fd;
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .buttons .pending {
+      background-color: #ffc107;
+      color: white;
+    }
+
+    .buttons .pending:hover {
+      background-color: #e0a800;
+    }
+
+    
+
+
+    .success-message {
+      display: none;
+      margin-top: 20px;
+      padding: 10px;
+      color: #155724;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      border-radius: 5px;
+    }
+
+    .error-message {
+      display: none;
+      margin-top: 20px;
+      padding: 10px;
+      color: #721c24;
+      background-color: #f8d7da;
+      border: 1px solid #f5c6cb;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <img src="../imagenes/PRINCIPAL.png" alt="Encabezado">
+    </div>
+    <h1>Título de la Tarea</h1>
+    <input type="text" class="input-task" placeholder="Escribe el nombre de la tarea">
+    <div class="calendar-section">
+      <div class="calendar-label">Agenda</div>
+      <input type="text" id="calendar" placeholder="Selecciona una fecha y hora">
+    </div>
+    <div class="hours-wrapper">
+      <div class="hours">
+        <div class="hour">9:00 AM</div>
+        <div class="hour">10:00 AM</div>
+        <div class="hour">11:00 AM</div>
+        <div class="hour">2:00 PM</div>
+        <div class="hour">3:00 PM</div>
+        <div class="hour">4:00 PM</div>
+      </div>
+    </div>
+    <div class="buttons">
+      <button class="pending" id="pendingButton">Pendiente</button>
+    </div>
+    <div class="success-message" id="successMessage">
+      ¡Tarea guardada con éxito!
+    </div>
+    <div class="error-message" id="errorMessage">
+      No hay tareas pendientes.
+    </div>
+  </div>
+
+  <!-- Flatpickr JS -->
+  <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+  <script>
+    flatpickr("#calendar", {
+      enableTime: true,
+      dateFormat: "Y-m-d H:i",
+    });
+
+    const saveTaskButton = document.getElementById('saveTaskButton');
+  const pendingButton = document.getElementById('pendingButton');
+  const taskInput = document.querySelector('.input-task');
+  const dateInput = document.getElementById('calendar');
+  const successMessage = document.getElementById('successMessage');
+
+  // Mostrar un mensaje dinámico
+  const showMessage = (message, type = 'success') => {
+    successMessage.textContent = message;
+    successMessage.style.display = 'block';
+    successMessage.style.backgroundColor = type === 'success' ? '#d4edda' : '#f8d7da';
+    successMessage.style.color = type === 'success' ? '#155724' : '#721c24';
+    setTimeout(() => {
+      successMessage.style.display = 'none';
+    }, 3000);
+  };
+
+    // Guardar tarea pendiente con fecha
+  pendingButton.addEventListener('click', () => {
+    const taskName = taskInput.value.trim();
+    const taskDate = dateInput.value.trim();
+
+    if (taskName && taskDate) {
+      let pendingTasks = JSON.parse(localStorage.getItem('pendingTasks')) || [];
+      pendingTasks.push({ name: taskName, date: taskDate });
+      localStorage.setItem('pendingTasks', JSON.stringify(pendingTasks));
+      showMessage('¡Tarea añadida como pendiente!');
+      taskInput.value = ''; // Limpiar el campo de entrada
+      dateInput.value = ''; // Limpiar el campo de fecha
+    } else {
+      showMessage('Por favor ingresa un nombre y una fecha para la tarea.', 'error');
+    }
+  });
+</script>
+  
+</body>
+</html>
+
+

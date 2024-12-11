@@ -9,47 +9,68 @@
 <body>
     <header>
         <h1>Bienvenido</h1>
-        <p>Miguel</p>
+        <p>Miguel Angel Romero Romero</p>
     </header>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          const userName = localStorage.getItem('userName');
+          const welcomeMessage = document.querySelector('header p');
+          if (userName) {
+            welcomeMessage.textContent = `Bienvenido, ${userName}`;
+          } else {
+            welcomeMessage.textContent = 'Bienvenido';
+          }
+        });
+      </script>
+      
     <main>
         <div class="button-grid">
-            <div class="button agregar">
+            <button class="button agregar" onclick="location.href='./funcionalidad/agregartarea.html'">
                 <img src="imagenes/+agregar tarea.png" alt="Agregar Tarea">
                 AGREGAR NUEVA TAREA
-            </div>
-            <div class="button pendientes">
+            </button>
+            <button class="button pendientes" onclick="location.href='./funcionalidad/vertareapendi.html'">
                 <img src="imagenes/+nara.png" alt="Tareas Pendientes">
                 VER TAREAS PENDIENTES
-            </div>
-            <div class="button completadas">
+            </button>
+            <button class="button completadas" onclick="location.href='./funcionalidad/vertareacomple.html'">
                 <img src="imagenes/carpverde.png" alt="Tareas Completadas">
                 VER TAREAS COMPLETADAS
-            </div>
-            <div class="button guardadas">
+            </button>
+            <button class="button guardadas" onclick="location.href='./funcionalidad/editarea.html'">
                 <img src="imagenes/carpnara.png" alt="Editar Tareas">
                 EDITAR TAREAS GUARDADAS
-            </div>
-        </div>
-        
-        <div class="button-row">
-            <div class="button eliminadas">
+            </button>
+            <button class="button eliminadas" onclick="location.href='./funcionalidad/tareaeliminada.html'">
                 <img src="imagenes/carpfusia.png" alt="Tareas Eliminadas">
                 TAREAS ELIMINADAS
-            </div>
-            <div class="button notificaciones">
+            </button>
+            <button class="button notificaciones" onclick="location.href='./funcionalidad/confnoti.html'">
                 <img src="imagenes/+fusia.png" alt="Configurar Notificaciones">
                 CONFIGURAR NOTIFICACIONES
-            </div>
-            <div class="button papelera">
+            </button>
+            <button class="button papelera" onclick="location.href='./funcionalidad/papelera.html'">
                 <img src="imagenes/carpamarilla.png" alt="Papelera">
                 PAPELERA
-            </div>
+            </button>
         </div>
-        
         <div class="social-media">
             <img src="imagenes/redesso.png" alt="Redes Sociales">
         </div>
-        
+        <div id="calendarModal" class="modal">
+            <div class="modal-content">
+              <h2>Selecciona la fecha</h2>
+              <input type="text" id="calendarInput" placeholder="Selecciona la fecha y hora">
+              <button id="saveTaskButton">Guardar Tarea</button>
+            </div>
+          </div>
+          
+    </main>
+    <script src="main.js"></script>
+
+</body>
+</html>
+
         
         
         

@@ -6,17 +6,7 @@
     <link rel="stylesheet" href="login.css">
     <title>Iniciar Sesión</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 90vh;
-            margin: 0;
-            background-color: #f4f4f9;
-        }
-
+        /* Estilo del Header */
         header {
             display: flex;
             justify-content: space-between;
@@ -25,24 +15,24 @@
             color: #fff;
         }
 
-       
-
         header nav a {
             color: #fff;
             text-decoration: none;
-            margin: 0 10px;
+            margin: 10px;
         }
 
         header nav a:hover {
             text-decoration: underline;
         }
 
+        /* Estilo del Formulario */
         form {
             background: #fff;
             padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 0 10px rgba(60, 41, 41, 0.1);
             width: 300px;
+            margin-top: 20px; /* Espaciado desde el banner */
         }
 
         form label {
@@ -73,17 +63,19 @@
             background-color: #0056b3;
         }
 
+        /* Estilo del Mensaje */
         #message {
-            margin-top: 10px;
             text-align: center;
-            font-size: 14px;
+            font-size: 20px;
+            margin-top: 10px;
         }
 
+        /* Enlace de Regreso a la Página Principal */
         #back-to-home {
-            margin-top: 10px;
+            margin-top: 20px;
             color: #007bff;
             text-decoration: none;
-            font-size: 14px;
+            font-size: 20px;
         }
 
         #back-to-home:hover {
@@ -92,11 +84,6 @@
     </style>
 </head>
 <body>
-    <header>
-        <nav>
-            <a href="index.html">Página Inicial</a>
-        </nav>
-    </header>
     <main>
         <h1>Iniciar Sesión</h1>
         <form id="login-form">
@@ -109,6 +96,7 @@
             <button type="submit">Ingresar</button>
         </form>
         <div id="message"></div>
+        <a href="index.html" id="back-to-home">Regresar a la Página Principal</a>
     </main>
     <script>
         document.getElementById('login-form').addEventListener('submit', async (event) => {
@@ -119,17 +107,20 @@
 
             try {
                 const response = await fetch('http://192.168.18.10:3000/api/login', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ name, email, password }),
-});
-
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ email, password }),
+                });
 
                 const result = await response.json();
 
                 if (response.ok) {
+                    // Extraer el nombre del correo electrónico
+                    const userName = email.split('@')[0];
+                    localStorage.setItem('userName', userName); // Guardar el nombre en localStorage
+
                     document.getElementById('message').style.color = 'green';
                     document.getElementById('message').textContent = 'Inicio de sesión exitoso';
                     // Redirigir al usuario

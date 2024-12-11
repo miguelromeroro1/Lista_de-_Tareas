@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Papelera</title>
+  <link rel="stylesheet" href="../dashboard.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 800px;
+      margin-top: 20px;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    .table th, .table td {
+      padding: 10px;
+      text-align: left;
+      border: 1px solid #ddd;
+    }
+
+    .table th {
+      background-color: #ffcccb;
+      color: #333;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 10px;
+    }
+
+    .restore-button {
+      background-color: #28a745;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .restore-button:hover {
+      background-color: #218838;
+    }
+
+    .delete-button {
+      background-color: #dc3545;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .delete-button:hover {
+      background-color: #c82333;
+    }
+
+    .empty-message {
+      text-align: center;
+      color: #666;
+      font-size: 18px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Papelera</h1>
+    <table class="table" id="trashTable">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre de la Tarea</th>
+          <th>Fecha Eliminada</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Las tareas eliminadas se mostrarán aquí -->
+      </tbody>
+    </table>
+    <div class="empty-message" id="emptyMessage">La papelera está vacía.</div>
+  </div>
+
+  <script>
+    const trashTable = document.getElementById('trashTable').getElementsByTagName('tbody')[0];
+    const emptyMessage = document.getElementById('emptyMessage');
+    let deletedTasks = JSON.parse(localStorage.getItem('deletedTasks')) || [];
+
+    // Renderizar las tareas en la papelera
+    const renderTrash = () => {
+      trashTable.innerHTML = '';
+
+      if (deletedTasks.length > 0) {
+        emptyMessage.style.display = 'none';
+
+        deletedTasks.forEach((task, index) => {
+          const row = document.createElement('tr');
+
+          const taskIndex = document.createElement('td');
+          taskIndex.textContent = index + 1;
+
+          const taskName = document.createElement('td');
+          taskName.textContent = task.name;
+
+          const taskDate = document.createElement('td');
+          taskDate.textContent = task.deletedDate;
+
+          const taskActions = document.createElement('td');
+          taskActions.classList.add('action-buttons');
+
+          const restoreButton = document.createElement('button');
+          restoreButton.textContent = 'Restaurar';
+          restoreButton.classList.add('restore-button');
+
+          const deleteButton = document.createElement('button');
+          deleteButton.textContent = 'Eliminar Definitivamente';
+          deleteButton.classList.add('delete-button');
+
+          // Restaurar tarea
+          restoreButton.addEventListener('click', () => {
+            const restoredTask = deletedTasks.splice(index, 1)[0];
+            localStorage.setItem('deletedTasks', JSON.stringify(deletedTasks));
+
+            let pendingTasks = JSON.parse(localStorage.getItem('pendingTasks')) || [];
+            pendingTasks.push({
+              name: restoredTask.name,
+              date: restoredTask.date
+            });
+            localStorage.setItem('pendingTasks', JSON.stringify(pendingTasks));
+
+            renderTrash();
+          });
+
+          // Eliminar definitivamente
+          deleteButton.addEventListener('click', () => {
+            deletedTasks.splice(index, 1);
+            localStorage.setItem('deletedTasks', JSON.stringify(deletedTasks));
+            renderTrash();
+          });
+
+          taskActions.appendChild(restoreButton);
+          taskActions.appendChild(deleteButton);
+
+          row.appendChild(taskIndex);
+          row.appendChild(taskName);
+          row.appendChild(taskDate);
+          row.appendChild(taskActions);
+          trashTable.appendChild(row);
+        });
+      } else {
+        emptyMessage.style.display = 'block';
+      }
+    };
+
+    renderTrash();
+  </script>
+</body>
+</html>

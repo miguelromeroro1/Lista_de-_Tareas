@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Editar Tarea</title>
+  <link rel="stylesheet" href="../dashboard.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 800px;
+      margin-top: 20px;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    .tasks-list {
+      margin-top: 20px;
+    }
+
+    .task-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+    }
+
+    .task-item:last-child {
+      border-bottom: none;
+    }
+
+    .task-item button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background-color: #007bff;
+      color: white;
+    }
+
+    .task-item button:hover {
+      background-color: #0056b3;
+    }
+
+    .edit-form {
+      display: none;
+      flex-direction: column;
+      margin-top: 20px;
+    }
+
+    .edit-form input {
+      margin-bottom: 10px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      width: 100%;
+    }
+
+    .edit-form button {
+      background-color: #28a745;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .edit-form button:hover {
+      background-color: #218838;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Editar Tarea</h1>
+    </div>
+    <div class="tasks-list" id="tasksList">
+      <!-- Tareas pendientes se cargarán aquí -->
+    </div>
+
+    <!-- Formulario de edición -->
+    <div class="edit-form" id="editForm">
+      <input type="text" id="editTaskName" placeholder="Nuevo nombre de la tarea">
+      <button id="saveEditButton">Guardar Cambios</button>
+    </div>
+  </div>
+
+  <script>
+    const tasksList = document.getElementById('tasksList');
+    const editForm = document.getElementById('editForm');
+    const editTaskName = document.getElementById('editTaskName');
+    const saveEditButton = document.getElementById('saveEditButton');
+
+    let pendingTasks = JSON.parse(localStorage.getItem('pendingTasks')) || [];
+    let currentTaskIndex = null;
+
+    // Renderizar la lista de tareas
+    const renderTasks = () => {
+      tasksList.innerHTML = '';
+      if (pendingTasks.length > 0) {
+        pendingTasks.forEach((task, index) => {
+          const taskItem = document.createElement('div');
+          taskItem.classList.add('task-item');
+
+          const taskName = document.createElement('span');
+          taskName.textContent = task.name;
+
+          const editButton = document.createElement('button');
+          editButton.textContent = 'Editar';
+
+          // Mostrar el formulario de edición
+          editButton.addEventListener('click', () => {
+            currentTaskIndex = index;
+            editTaskName.value = task.name;
+            editForm.style.display = 'flex';
+          });
+
+          taskItem.appendChild(taskName);
+          taskItem.appendChild(editButton);
+          tasksList.appendChild(taskItem);
+        });
+      } else {
+        const noTasksMessage = document.createElement('p');
+        noTasksMessage.textContent = 'No hay tareas para editar.';
+        tasksList.appendChild(noTasksMessage);
+      }
+    };
+
+    // Guardar los cambios en la tarea
+    saveEditButton.addEventListener('click', () => {
+      const newTaskName = editTaskName.value.trim();
+
+      if (newTaskName && currentTaskIndex !== null) {
+        pendingTasks[currentTaskIndex].name = newTaskName;
+        localStorage.setItem('pendingTasks', JSON.stringify(pendingTasks));
+        renderTasks();
+        editForm.style.display = 'none';
+        currentTaskIndex = null;
+        editTaskName.value = '';
+        alert('¡Tarea editada con éxito!');
+      }
+    });
+
+    // Inicializar la lista de tareas
+    renderTasks();
+  </script>
+</body>
+</html>

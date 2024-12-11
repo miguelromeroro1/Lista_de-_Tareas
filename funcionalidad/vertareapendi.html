@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tareas Pendientes</title>
+  <link rel="stylesheet" href="../dashboard.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 800px;
+      margin-top: 20px;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      margin: 0;
+      font-size: 24px;
+      color: #333;
+    }
+
+    .tasks-list {
+      margin-top: 20px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      background: #f9f9f9;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+    .task-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      margin: 5px 0;
+      border-bottom: 1px solid #ddd;
+      font-size: 16px;
+      color: #555;
+    }
+
+    .task-item:last-child {
+      border-bottom: none;
+    }
+
+    .task-actions {
+      display: flex;
+      gap: 10px; /* Espaciado entre los botones */
+    }
+
+    .task-item button {
+      padding: 5px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .task-item .view-button {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .task-item .view-button:hover {
+      background-color: #0056b3;
+    }
+
+    .task-item .delete-button {
+      background-color: #dc3545;
+      color: white;
+    }
+
+    .task-item .delete-button:hover {
+      background-color: #c82333;
+    }
+
+    .success-message {
+      display: none;
+      margin-top: 20px;
+      padding: 10px;
+      color: #155724;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      border-radius: 5px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Tareas Pendientes</h1>
+    </div>
+    <div class="tasks-list" id="tasksList">
+      <!-- Las tareas pendientes se mostrarán aquí -->
+    </div>
+    <div class="success-message" id="successMessage">
+      <!-- Mensaje dinámico de la acción -->
+    </div>
+  </div>
+
+  <script>
+    const tasksList = document.getElementById('tasksList');
+    const successMessage = document.getElementById('successMessage');
+    let pendingTasks = JSON.parse(localStorage.getItem('pendingTasks')) || [];
+    let deletedTasks = JSON.parse(localStorage.getItem('deletedTasks')) || [];
+
+    // Renderizar la lista de tareas pendientes
+    const renderTasks = () => {
+      tasksList.innerHTML = '';
+      if (pendingTasks.length > 0) {
+        pendingTasks.forEach((task, index) => {
+          const taskItem = document.createElement('div');
+          taskItem.classList.add('task-item');
+
+          const taskName = document.createElement('span');
+          taskName.textContent = task.name;
+
+          const taskActions = document.createElement('div');
+          taskActions.classList.add('task-actions');
+
+          const viewButton = document.createElement('button');
+          viewButton.textContent = 'Ver';
+          viewButton.classList.add('view-button');
+
+          const deleteButton = document.createElement('button');
+          deleteButton.textContent = 'Eliminar';
+          deleteButton.classList.add('delete-button');
+
+          // Mostrar la fecha en el mensaje verde al hacer clic en "Ver"
+          viewButton.addEventListener('click', () => {
+            successMessage.textContent = `Fecha de la tarea: ${task.date}`;
+            successMessage.style.display = 'block';
+            setTimeout(() => {
+              successMessage.style.display = 'none';
+            }, 3000);
+          });
+
+          // Eliminar la tarea al hacer clic en "Eliminar"
+          deleteButton.addEventListener('click', () => {
+            const confirmation = confirm('¿Estás seguro de que deseas eliminar esta tarea?');
+            if (confirmation) {
+              // Mover la tarea eliminada al array deletedTasks
+              deletedTasks.push(task);
+              localStorage.setItem('deletedTasks', JSON.stringify(deletedTasks));
+
+              // Eliminar la tarea de pendingTasks
+              pendingTasks.splice(index, 1); // Eliminar la tarea del array
+              localStorage.setItem('pendingTasks', JSON.stringify(pendingTasks)); // Actualizar localStorage
+
+              renderTasks(); // Volver a renderizar la lista
+
+              successMessage.textContent = '¡Tarea eliminada y movida a Tareas Eliminadas!';
+              successMessage.style.display = 'block';
+              setTimeout(() => {
+                successMessage.style.display = 'none';
+              }, 3000);
+            }
+          });
+
+          taskActions.appendChild(viewButton);
+          taskActions.appendChild(deleteButton);
+          taskItem.appendChild(taskName);
+          taskItem.appendChild(taskActions);
+          tasksList.appendChild(taskItem);
+        });
+      } else {
+        const noTasksMessage = document.createElement('div');
+        noTasksMessage.classList.add('task-item');
+        noTasksMessage.textContent = 'No hay tareas pendientes.';
+        tasksList.appendChild(noTasksMessage);
+      }
+    };
+
+    // Inicializar la lista de tareas
+    renderTasks();
+  </script>
+</body>
+</html>

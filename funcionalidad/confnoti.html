@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Configuración de Notificaciones</title>
+  <link rel="stylesheet" href="../dashboard.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 80%;
+      max-width: 600px;
+      margin-top: 20px;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    h1 {
+      font-size: 24px;
+      color: #333;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 16px;
+      margin-bottom: 10px;
+      color: #555;
+    }
+
+    .form-group input[type="checkbox"],
+    .form-group input[type="radio"] {
+      margin-right: 10px;
+    }
+
+    .form-group select {
+      width: 100%;
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    .form-actions {
+      text-align: center;
+    }
+
+    .form-actions button {
+      padding: 10px 20px;
+      font-size: 16px;
+      color: white;
+      background-color: #28a745;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .form-actions button:hover {
+      background-color: #218838;
+    }
+
+    .success-message {
+      display: none;
+      margin-top: 20px;
+      padding: 10px;
+      color: #155724;
+      background-color: #d4edda;
+      border: 1px solid #c3e6cb;
+      border-radius: 5px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Configuración de Notificaciones</h1>
+
+    <div class="form-group">
+      <label>Método de Notificación:</label>
+      <input type="checkbox" id="email" value="email"> Correo Electrónico<br>
+      <input type="checkbox" id="sms" value="sms"> SMS<br>
+      <input type="checkbox" id="app" value="app"> Notificación en la App
+    </div>
+
+    <div class="form-group">
+      <label>Frecuencia:</label>
+      <select id="frequency">
+        <option value="daily">Diario</option>
+        <option value="weekly">Semanal</option>
+        <option value="important">Solo en Tareas Importantes</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label>Tipos de Notificaciones:</label>
+      <input type="checkbox" id="pending" value="pending"> Recordatorios de Tareas Pendientes<br>
+      <input type="checkbox" id="completed" value="completed"> Tareas Completadas<br>
+      <input type="checkbox" id="overdue" value="overdue"> Tareas Vencidas<br>
+      <input type="checkbox" id="new" value="new"> Nuevas Tareas Asignadas
+    </div>
+
+    <div class="form-group">
+      <label>
+        <input type="checkbox" id="enableNotifications" value="enable"> Activar/Desactivar Notificaciones
+      </label>
+    </div>
+
+    <div class="form-actions">
+      <button id="saveConfigButton">Guardar Configuración</button>
+    </div>
+
+    <div class="success-message" id="successMessage">¡Configuración guardada con éxito!</div>
+  </div>
+
+  <script>
+    const saveConfigButton = document.getElementById('saveConfigButton');
+    const successMessage = document.getElementById('successMessage');
+
+    saveConfigButton.addEventListener('click', () => {
+      const config = {
+        methods: [
+          document.getElementById('email').checked ? 'email' : null,
+          document.getElementById('sms').checked ? 'sms' : null,
+          document.getElementById('app').checked ? 'app' : null,
+        ].filter(Boolean),
+        frequency: document.getElementById('frequency').value,
+        types: [
+          document.getElementById('pending').checked ? 'pending' : null,
+          document.getElementById('completed').checked ? 'completed' : null,
+          document.getElementById('overdue').checked ? 'overdue' : null,
+          document.getElementById('new').checked ? 'new' : null,
+        ].filter(Boolean),
+        enabled: document.getElementById('enableNotifications').checked,
+      };
+
+      localStorage.setItem('notificationConfig', JSON.stringify(config));
+
+      successMessage.style.display = 'block';
+      setTimeout(() => {
+        successMessage.style.display = 'none';
+      }, 3000);
+    });
+  </script>
+</body>
+</html>

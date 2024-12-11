@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tareas Completadas</title>
+  <link rel="stylesheet" href="../dashboard.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .container {
+      width: 90%;
+      max-width: 1000px;
+      margin-top: 20px;
+      background: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .header h1 {
+      font-size: 24px;
+      color: #333;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #28a745;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    tr:hover {
+      background-color: #ddd;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Tareas Completadas</h1>
+    </div>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Nombre de la Tarea</th>
+          <th>Fecha y Hora</th>
+        </tr>
+      </thead>
+      <tbody id="completedTasksTable">
+        <!-- Las tareas completadas se cargarán aquí -->
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    const today = new Date(); // Fecha actual
+    const pendingTasks = JSON.parse(localStorage.getItem('pendingTasks')) || [];
+    const completedTasks = JSON.parse(localStorage.getItem('completedTasks')) || [];
+    const completedTasksTable = document.getElementById('completedTasksTable');
+  
+    // Mover tareas vencidas a completadas
+    const checkTasks = () => {
+      const updatedPendingTasks = [];
+      pendingTasks.forEach((task) => {
+        const taskDate = new Date(task.date);
+        if (taskDate < today) {
+          // Mover tarea vencida a completadas
+          completedTasks.push(task);
+        } else {
+          // Mantener tarea en pendientes
+          updatedPendingTasks.push(task);
+        }
+      });
+  
+      // Actualizar localStorage
+      localStorage.setItem('pendingTasks', JSON.stringify(updatedPendingTasks));
+      localStorage.setItem('completedTasks', JSON.stringify(completedTasks));
+    };
+  
+    // Renderizar las tareas completadas en la tabla
+    const renderCompletedTasks = () => {
+      completedTasksTable.innerHTML = '';
+      if (completedTasks.length > 0) {
+        completedTasks.forEach((task, index) => {
+          const row = document.createElement('tr');
+  
+          const indexCell = document.createElement('td');
+          indexCell.textContent = index + 1;
+  
+          const nameCell = document.createElement('td');
+          nameCell.textContent = task.name;
+  
+          const dateCell = document.createElement('td');
+          dateCell.textContent = task.date;
+  
+          row.appendChild(indexCell);
+          row.appendChild(nameCell);
+          row.appendChild(dateCell);
+  
+          completedTasksTable.appendChild(row);
+        });
+      } else {
+        const row = document.createElement('tr');
+        const noDataCell = document.createElement('td');
+        noDataCell.textContent = 'No hay tareas completadas.';
+        noDataCell.colSpan = 3;
+        noDataCell.style.textAlign = 'center';
+        row.appendChild(noDataCell);
+        completedTasksTable.appendChild(row);
+      }
+    };
+  
+    // Ejecutar la verificación y renderizar
+    checkTasks();
+    renderCompletedTasks();
+  </script>
+  
